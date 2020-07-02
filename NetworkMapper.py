@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 def pingLan(subnet,start, end):
     ipAddresses = []
@@ -18,6 +19,16 @@ def mapper(subnet,start, end):
     list = pingLan(subnet,start, end)
     for i in list:
         print(i)
-    print("\n")
+    print("Done.\n")
 
-mapper("216.128.235", 1, 255)
+def parseArgs(args):
+    if len(args) > 1:
+        mapper(args[1], int(args[2]), int(args[3]))
+    else:
+        printUsage()
+
+def printUsage():
+    print("USAGE: NewtworkMapper.py <subnet> <start> <end>")
+    print("Ex: 'NewtworkMapper.py 192.168.0 0 255' \n will ping 192.168.0.0 through 192.168.0.255")
+
+parseArgs(sys.argv)
