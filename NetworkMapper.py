@@ -4,11 +4,11 @@ import sys
 def pingLan(subnet,start, end):
     string = "Pinging IP's from " + subnet + "." + str(start) + " to " + subnet + "." + str(end) + "...\n"
     cmd = "echo \"" + string + "\" > results.txt "
-    ps = subprocess.call(cmd, shell=True)
+    subprocess.call(cmd, shell=True)
 
     for ping in range(start, (end+1)):
            address = subnet + "." + str(ping)
-           cmd = "ping -c 1 -w 2  " + address + " >> results.txt"
+           cmd = "ping -c 1 -w 1  " + address + " >> results.txt"
            ps = subprocess.call(cmd, shell=True)
            if ps == 0:
                print("Ping to " + address + "    SUCCESS")
