@@ -1,23 +1,34 @@
 import subprocess
 
-ipAddresses = []
 
 
-def pingLan(subnet,start, end):
-    for ping in range(start, (end+1)):
-        address = subnet + "." + str(ping)
-        cmd = "ping -c 1 " + address + " > results.txt"
-        ps = subprocess.call(cmd, shell=True)
-        if ps <= 0:
-            ipAddresses.append(address)
+def pingLan(live, subnet,start, end):
+    ipAddresses = []
+    if live:
+        for ping in range(start, (end+1)):
+            address = subnet + "." + str(ping)
+            cmd = "ping -c 1 " + address + " >> results.txt"
+            ps = subprocess.call(cmd, shell=True)
+            if ps == 0:
+                ipAddresses.append("ping to " + address + "   SUCCESS")
+    else:
+        for ping in range(start, (end+1)):
+            address = subnet + "." + str(ping)
+            cmd = "ping -c 1 " + address + " >> results.txt"
+            ps = subprocess.call(cmd, shell=True)
+            if ps > 0:
+                ipAddresses.append("ping to " + address + "   FAIL")
 
-def mapper(subnet,start, end):
-    retVal = ""
-    pingLan(subnet,start, end)
-    for i in ipAddresses:
-        retVal += "ping to " + i + "   OK\n"
-    return retVal
+    return ipAddresses
 
-print(mapper("216.128.235", 1, 2))
+def mapper(live,subnet,start, end):
+    print("These IP's from " + subnet + "." + str(start) + " -> " + subnet + "." + str(end) + " are live:")
+    list = pingLan(live, subnet,start, end)
+    for i in list:
+        print(i)
+    print("\n")
 
-print(mapper("127.0.0", 1, 10))
+mapper(False, "216.128.235", 1, 33)
+mapper(True, "216.128.235", 1, 33)
+
+#print(mapper(True, "127.0.0", 1, 10))
