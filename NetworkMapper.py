@@ -50,10 +50,10 @@ def checkHost(ip, port):
 def parseArgs(args):
     if len(args) > 1:
         if args[2] == "-ping":
-            print("Pinging IP's from " + args[1] + "." + args[3] + " to " + args[1] + "." + args[4] + "...")
+            print("Pinging IP's from " + args[1] + "." + args[3] + " to " + args[1] + "." + args[4] + "...\n")
             pingLan(args[1], int(args[3]), int(args[4]))
         elif args[2] == "-ports":
-            print("Checking " + args[1] + " on ports " + str(args[3]) + " through " + str(args[4]))
+            print("Checking " + args[1] + " on ports " + str(args[3]) + " through " + str(args[4]) + "...\n")
             scanPorts(args[1], int(args[3]), int(args[4]))
         else:
             printUsage()
@@ -64,9 +64,9 @@ def parseArgs(args):
 def scanPorts(ip, start, end):
     for i in range(start, (end +1)):
         if checkHost(ip, i):
-            print("Scan on " + ip + ":" + str(i) + " returned " + "     UP")
+            print("Scan on " + ip + ":" + str(i) + " returned " + "     OPEN")
         else:
-            print("Scan on " + ip + ":" + str(i) + " returned " + "     DOWN")
+            print("Scan on " + ip + ":" + str(i) + " returned " + "     CLOSED")
 
 
 def printUsage():
