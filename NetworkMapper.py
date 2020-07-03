@@ -10,6 +10,17 @@ timeout = 1
 appName = "NetworkMapper"
 
 
+def guiInputs(gui,name, targetIp, mode, rangeEntry):
+    args = [name, targetIp, mode]
+    rangeList = rangeEntry.split(',')
+
+    for i in rangeList:
+        args.append(i)
+
+    parseArgs(args,name,gui)
+
+
+
 def pingLan(subnet, start, end):
     string = "Pinging IP's from " + subnet + "." + str(start) + " to " + subnet + "." + str(end) + "...\n"
     cmd = "echo \"" + string + "\" > results.txt "
@@ -47,14 +58,10 @@ def checkHost(ip, port):
         else:
             time.sleep(delay)
     return ipup
-def launchGUI(name):
-    ipArg = "Google.com"
-    modeArg = "-init"
-    startArg = "443"
-    endArg = "443"
-    guiInputs = [name, ipArg, modeArg, startArg, endArg]
 
-    gui = Tk()
+
+def launchGUI(name,gui):
+
     gui.title(name)
     gui.geometry('450x300+200+200')
 
@@ -64,41 +71,49 @@ def launchGUI(name):
     targetText.pack()
 
     useLabel = StringVar()
-    useLabel.set("(Ex: 174.128.244.66  or google.com  or 127.0.0)")
+    useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
     useText = Label(gui, textvariable=useLabel)
     useText.pack()
 
     target = StringVar(None)
+    target.set("google.com")
     targetIp = Entry(gui, textvariable=target)
     targetIp.pack()
 
     modeText = StringVar()
     modeText.set("Select a mode:")
-    modeLabel = Label(gui, textvariable=modeText, height=1, font =1)
-    modeLabel.pack(pady=10)
+    modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
+    modeLabel.pack(pady=5)
 
     mode = StringVar()
-    mode.set(None)
+    mode.set("-init")
     modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
     modeRadio.pack()
     modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
     modeRadio.pack()
 
     rangeText = StringVar()
-    rangeText.set("Enter range to scan/ping (Ex: 0,500)")
-    rangeLabel = Label(gui, textvariable=rangeText, height=1, pady=10, font =1)
-    rangeLabel.pack()
+    rangeText.set("Enter range to scan/ping:")
+    rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
+    rangeLabel.pack(pady=5)
+
+    rangeUseText = StringVar()
+    rangeUseText.set("(Ex: 0,500)")
+    rangeUseLabel = Label(gui, textvariable=rangeUseText)
+    rangeUseLabel.pack()
 
     rangeIn = StringVar(None)
+    rangeIn.set("440,445")
     rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
     rangeEntry.pack()
 
-    button = Button(gui, text="Execute", command=parseArgs(name, guiInputs))
+    button = Button(gui, text="Execute", command=guiInputs(gui,name, targetIp.get(), mode.get(), rangeEntry.get()))
     button.pack(side='bottom', padx=15, pady=15)
 
     gui.mainloop()
 
-def parseArgs(args, name):
+
+def parseArgs(args, name, gui):
     if len(args) > 1:
         if args[2] == "-init":
             print("GUI initialized")
@@ -110,7 +125,7 @@ def parseArgs(args, name):
             scanPorts(args[1], int(args[3]), int(args[4]))
         elif args[2] == "-gui":
             print("Initializing GUI...")
-            launchGUI(name)
+            launchGUI(name, gui)
         else:
             printUsage()
     else:
@@ -132,6 +147,7 @@ def printUsage():
     print("     Port scan Ex: 'python2 NewtworkMapper.py -ports 192.168.0.0 0 443'\n"
           "     will check ports if ports 0 through 443 are open on 192.168.0.0\n ")
 
+gui = Tk()
+parseArgs(sys.argv, appName, gui)
 
 
-parseArgs(sys.argv, appName)
