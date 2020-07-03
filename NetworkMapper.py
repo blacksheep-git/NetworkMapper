@@ -2,7 +2,7 @@ import subprocess
 import socket
 import time
 from Tkinter import *
-import threading
+import tkMessageBox
 
 retry = 1
 delay = 0
@@ -50,61 +50,6 @@ def checkHost(ip, port):
     return ipup
 
 
-def launchGUI(name):
-
-    gui = Tk()
-    gui.title(name)
-    gui.geometry('450x300+200+200')
-
-    targetLabel = StringVar()
-    targetLabel.set("Enter target IP, domain or subnet:")
-    targetText = Label(gui, textvariable=targetLabel, height=1, font=23)
-    targetText.pack()
-
-    useLabel = StringVar()
-    useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
-    useText = Label(gui, textvariable=useLabel)
-    useText.pack()
-
-    target = StringVar(None)
-    target.set("google.com")
-    targetIp = Entry(gui, textvariable=target)
-    targetIp.pack()
-
-    modeText = StringVar()
-    modeText.set("Select a mode:")
-    modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
-    modeLabel.pack(pady=5)
-
-    mode = StringVar()
-    mode.set('-init')
-    modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
-    modeRadio.pack()
-    modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
-    modeRadio.pack()
-
-    rangeText = StringVar()
-    rangeText.set("Enter range to scan/ping:")
-    rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
-    rangeLabel.pack(pady=5)
-
-    rangeUseText = StringVar()
-    rangeUseText.set("(Ex: 0,500)")
-    rangeUseLabel = Label(gui, textvariable=rangeUseText)
-    rangeUseLabel.pack()
-
-    rangeIn = StringVar(None)
-    rangeIn.set("0,500")
-    rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
-    rangeEntry.pack()
-
-    button = Button(gui, text="Execute", command=guiInputs(name, targetIp.get(), mode.get(), rangeEntry.get()))
-    button.pack(side='bottom', padx=15, pady=15)
-
-    gui.mainloop()
-
-
-
 def parseArgs(args):
     if len(args) > 1:
         if args[2] == "-init":
@@ -123,21 +68,12 @@ def parseArgs(args):
         printUsage()
 
 def guiParseArgs():
-    if len(guiArgs) > 1:
-        if guiArgs[2] == "-init":
-            print("GUI initialized")
-        elif guiArgs[2] == "-ping":
-            print("Pinging IP's from " + guiArgs[1] + "." + guiArgs[3] + " to " + guiArgs[1] + "." + guiArgs[4] + "...\n")
-            pingLan(guiArgs[1], int(guiArgs[3]), int(guiArgs[4]))
-        elif guiArgs[2] == "-ports":
-            print("Checking " + guiArgs[1] + " on ports " + str(guiArgs[3]) + " through " + str(guiArgs[4]) + "...\n")
-            scanPorts(guiArgs[1], int(guiArgs[3]), int(guiArgs[4]))
-        elif guiArgs[2] == "-gui":
-            print("Initializing GUI...")
-        else:
-            printUsage()
-    else:
-        printUsage()
+    guiArgs = [appName, targetIp.get(), mode.get()]
+    temp = rangeEntry.get().split(',')
+
+    for i in temp:
+        guiArgs.append(i)
+    parseArgs(guiArgs)
 
 def scanPorts(ip, start, end):
     for i in range(start, (end + 1)):
@@ -156,57 +92,61 @@ def printUsage():
 
 parseArgs(sys.argv)
 
+gui = Tk()
+gui.title(appName)
+gui.geometry('450x300+200+200')
+
+targetLabel = StringVar()
+targetLabel.set("Enter target IP, domain or subnet:")
+targetText = Label(gui, textvariable=targetLabel, height=1, font=23)
+targetText.pack()
+
+useLabel = StringVar()
+useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
+useText = Label(gui, textvariable=useLabel)
+useText.pack()
+
+target = StringVar(None)
+target.set("google.com")
+targetIp = Entry(gui, textvariable=target)
+targetIp.pack()
+
+modeText = StringVar()
+modeText.set("Select a mode:")
+modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
+modeLabel.pack(pady=5)
+
+mode = StringVar()
+mode.set('-ports')
+modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
+modeRadio.pack()
+modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
+modeRadio.pack()
+
+rangeText = StringVar()
+rangeText.set("Enter range to scan/ping:")
+rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
+rangeLabel.pack(pady=5)
+
+rangeUseText = StringVar()
+rangeUseText.set("(Ex: 0,5)")
+rangeUseLabel = Label(gui, textvariable=rangeUseText)
+rangeUseLabel.pack()
+
+rangeIn = StringVar(None)
+rangeIn.set("0,5")
+rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
+rangeEntry.pack()
+
+guiArgs = [appName, targetIp.get(), mode.get()]
+temp = rangeEntry.get().split(',')
+
+for i in temp:
+    guiArgs.append(i)
+
+button = Button(gui, text="Execute", command=guiParseArgs)
+button.pack(side='bottom', padx=15, pady=15)
+
 if(sys.argv[2] == '-gui'):
-    gui = Tk()
-    gui.title(appName)
-    gui.geometry('450x300+200+200')
-
-    targetLabel = StringVar()
-    targetLabel.set("Enter target IP, domain or subnet:")
-    targetText = Label(gui, textvariable=targetLabel, height=1, font=23)
-    targetText.pack()
-
-    useLabel = StringVar()
-    useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
-    useText = Label(gui, textvariable=useLabel)
-    useText.pack()
-
-    target = StringVar(None)
-    target.set("google.com")
-    targetIp = Entry(gui, textvariable=target)
-    targetIp.pack()
-
-    modeText = StringVar()
-    modeText.set("Select a mode:")
-    modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
-    modeLabel.pack(pady=5)
-
-    mode = StringVar()
-    mode.set('-init')
-    modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
-    modeRadio.pack()
-    modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
-    modeRadio.pack()
-
-    rangeText = StringVar()
-    rangeText.set("Enter range to scan/ping:")
-    rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
-    rangeLabel.pack(pady=5)
-
-    rangeUseText = StringVar()
-    rangeUseText.set("(Ex: 0,500)")
-    rangeUseLabel = Label(gui, textvariable=rangeUseText)
-    rangeUseLabel.pack()
-
-    rangeIn = StringVar(None)
-    rangeIn.set("0,500")
-    rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
-    rangeEntry.pack()
-
-    guiArgs = [appName,targetIp.get(), mode.get(), rangeEntry.get()]
-
-    button = Button(gui, text="Execute", command=guiParseArgs)
-    button.pack(side='bottom', padx=15, pady=15)
-
     gui.mainloop()
 
