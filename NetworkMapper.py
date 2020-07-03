@@ -38,7 +38,6 @@ def isOpen(ip, port):
     finally:
         s.close()
 
-
 def checkHost(ip, port):
     ipup = False
     for i in range(retry):
@@ -73,6 +72,12 @@ def guiParseArgs():
 
     for i in temp:
         guiArgs.append(i)
+
+    if guiArgs[2] == '-ping':
+        tkMessageBox.showinfo("Attention!", "You are about to ping subnet " + guiArgs[1] + " on IPs " + str(guiArgs[1]) + "." + str(guiArgs[3]) +  " through " + str(guiArgs[1]) + "." + str(guiArgs[4]) + "...\n\n" + "Click \"OK\" to continue")
+    elif guiArgs[2] == '-ports':
+        tkMessageBox.showinfo("Attention!", "You are about to scan \"" + guiArgs[1] + "\" on ports " + str(guiArgs[3]) +  " through " + str(guiArgs[4]) + "...\n\n" + "Click \"OK\" to continue")
+
     parseArgs(guiArgs)
 
 def scanPorts(ip, start, end):
@@ -138,14 +143,8 @@ rangeIn.set("0,5")
 rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
 rangeEntry.pack()
 
-guiArgs = [appName, targetIp.get(), mode.get()]
-temp = rangeEntry.get().split(',')
-
-for i in temp:
-    guiArgs.append(i)
-
 button = Button(gui, text="Execute", command=guiParseArgs)
-button.pack(side='bottom', padx=15, pady=15)
+button.pack(side='bottom')
 
 if(sys.argv[2] == '-gui'):
     gui.mainloop()
