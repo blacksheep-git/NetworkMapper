@@ -10,14 +10,14 @@ timeout = 1
 appName = "NetworkMapper"
 
 
-def guiInputs(gui,name, targetIp, mode, rangeEntry):
+def guiInputs(name, targetIp, mode, rangeEntry):
     args = [name, targetIp, mode]
     rangeList = rangeEntry.split(',')
 
     for i in rangeList:
         args.append(i)
 
-    parseArgs(args,name,gui)
+    parseArgs(args,name)
 
 
 
@@ -60,8 +60,9 @@ def checkHost(ip, port):
     return ipup
 
 
-def launchGUI(name,gui):
+def launchGUI(name):
 
+    gui = Tk()
     gui.title(name)
     gui.geometry('450x300+200+200')
 
@@ -103,17 +104,17 @@ def launchGUI(name,gui):
     rangeUseLabel.pack()
 
     rangeIn = StringVar(None)
-    rangeIn.set("440,445")
+    rangeIn.set("0,500")
     rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
     rangeEntry.pack()
 
-    button = Button(gui, text="Execute", command=guiInputs(gui,name, targetIp.get(), mode.get(), rangeEntry.get()))
+    button = Button(gui, text="Execute", command=guiInputs(name, targetIp.get(), mode.get(), rangeEntry.get()))
     button.pack(side='bottom', padx=15, pady=15)
 
     gui.mainloop()
 
 
-def parseArgs(args, name, gui):
+def parseArgs(args, name):
     if len(args) > 1:
         if args[2] == "-init":
             print("GUI initialized")
@@ -125,7 +126,7 @@ def parseArgs(args, name, gui):
             scanPorts(args[1], int(args[3]), int(args[4]))
         elif args[2] == "-gui":
             print("Initializing GUI...")
-            launchGUI(name, gui)
+            launchGUI(name)
         else:
             printUsage()
     else:
@@ -147,7 +148,4 @@ def printUsage():
     print("     Port scan Ex: 'python2 NewtworkMapper.py -ports 192.168.0.0 0 443'\n"
           "     will check ports if ports 0 through 443 are open on 192.168.0.0\n ")
 
-gui = Tk()
-parseArgs(sys.argv, appName, gui)
-
-
+parseArgs(sys.argv, appName)
