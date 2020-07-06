@@ -4,6 +4,16 @@ This program takes in command line input for:
 - Operating mode (-ping or -ports)
 - Range of subnet hosts to ping or ports to scan
 
+# Usage
+$ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <start> <end>
+
+     Ping Ex: 'python2 NewtworkMapper.py -ping 192.168.0 0 255'
+     will ping 192.168.0.0 through 192.168.0.255
+
+     Port scan Ex: 'python2 NewtworkMapper.py 192.168.0.0 0 -ports 442 443'
+     will check if ports 443 through 443 are open on 192.168.0.0
+
+
 # Port Scan Example:
 
 $ python2 NetworkMapper.py google.com -ports 440 450
@@ -53,4 +63,13 @@ Ping to 216.128.235.32    SUCCESS
 Ping to 216.128.235.33    FAIL
 
 Ping to 216.128.235.34    SUCCESS
+
+# GUI Supported
+To use the GUI, uncomment the Tkinter imports at the top of the NetworkMapper.py.
+
+# GUI Example
+$ python2 NetworkMapper.py 216.128.235 -gui
+Initializing GUI...
+
+
 
