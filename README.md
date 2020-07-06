@@ -4,7 +4,8 @@ This program takes in command line input for:
 - Operating mode (-ping or -ports)
 - Range of subnet hosts to ping or ports to scan
 
-Port Scan Example:
+# Port Scan Example:
+
 host $ python2 NetworkMapper.py google.com -ports 440 450
 Checking google.com on ports 440 through 450...
 
@@ -32,7 +33,9 @@ Scan on google.com:450 returned      CLOSED
 
 
 
-Ping sweep example: $ python2 NetworkMapper.py 216.128.235 -ping 28 34
+# Ping sweep example: 
+
+$ python2 NetworkMapper.py 216.128.235 -ping 28 34
 Pinging IP's from 216.128.235.28 to 216.128.235.34...
 
 
