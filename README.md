@@ -6,7 +6,7 @@ This program takes in command line input for:
 
 # Port Scan Example:
 
-host $ python2 NetworkMapper.py google.com -ports 440 450
+$ python2 NetworkMapper.py google.com -ports 440 450
 Checking google.com on ports 440 through 450...
 
 Scan on google.com:440 returned      CLOSED
