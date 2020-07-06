@@ -36,6 +36,7 @@ Scan on google.com:450 returned      CLOSED
 # Ping sweep example: 
 
 $ python2 NetworkMapper.py 216.128.235 -ping 28 34
+
 Pinging IP's from 216.128.235.28 to 216.128.235.34...
 
 
