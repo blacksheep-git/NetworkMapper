@@ -1,8 +1,9 @@
 import subprocess
 import socket
 import time
-from Tkinter import *
-import tkMessageBox
+import sys
+#from Tkinter import *
+#import tkMessageBox
 
 retry = 1
 delay = 0
@@ -97,55 +98,57 @@ def printUsage():
 
 parseArgs(sys.argv)
 
-gui = Tk()
-gui.title(appName)
-gui.geometry('450x300+200+200')
+if(len(sys.argv)>1):
+    if (sys.argv[2] == '-gui'):
+        gui = Tk()
+        gui.title(appName)
+        gui.geometry('450x300+200+200')
 
-targetLabel = StringVar()
-targetLabel.set("Enter target IP, domain or subnet:")
-targetText = Label(gui, textvariable=targetLabel, height=1, font=23)
-targetText.pack()
+        targetLabel = StringVar()
+        targetLabel.set("Enter target IP, domain or subnet:")
+        targetText = Label(gui, textvariable=targetLabel, height=1, font=23)
+        targetText.pack()
 
-useLabel = StringVar()
-useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
-useText = Label(gui, textvariable=useLabel)
-useText.pack()
+        useLabel = StringVar()
+        useLabel.set("(Ex: 174.128.244.66:  or google.com  or 127.0.0)")
+        useText = Label(gui, textvariable=useLabel)
+        useText.pack()
 
-target = StringVar(None)
-target.set("google.com")
-targetIp = Entry(gui, textvariable=target)
-targetIp.pack()
+        target = StringVar(None)
+        target.set("google.com")
+        targetIp = Entry(gui, textvariable=target)
+        targetIp.pack()
 
-modeText = StringVar()
-modeText.set("Select a mode:")
-modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
-modeLabel.pack(pady=5)
+        modeText = StringVar()
+        modeText.set("Select a mode:")
+        modeLabel = Label(gui, textvariable=modeText, height=1, font=1)
+        modeLabel.pack(pady=5)
 
-mode = StringVar()
-mode.set('-ports')
-modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
-modeRadio.pack()
-modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
-modeRadio.pack()
+        mode = StringVar()
+        mode.set('-ports')
+        modeRadio = Radiobutton(gui, text='Scan Ports', value='-ports', variable=mode)
+        modeRadio.pack()
+        modeRadio = Radiobutton(gui, text='Ping Sub-net', value='-ping', variable=mode)
+        modeRadio.pack()
 
-rangeText = StringVar()
-rangeText.set("Enter range to scan/ping:")
-rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
-rangeLabel.pack(pady=5)
+        rangeText = StringVar()
+        rangeText.set("Enter range to scan/ping:")
+        rangeLabel = Label(gui, textvariable=rangeText, height=1, font=1)
+        rangeLabel.pack(pady=5)
 
-rangeUseText = StringVar()
-rangeUseText.set("(Ex: 0,5)")
-rangeUseLabel = Label(gui, textvariable=rangeUseText)
-rangeUseLabel.pack()
+        rangeUseText = StringVar()
+        rangeUseText.set("(Ex: 0,5)")
+        rangeUseLabel = Label(gui, textvariable=rangeUseText)
+        rangeUseLabel.pack()
 
-rangeIn = StringVar(None)
-rangeIn.set("0,5")
-rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
-rangeEntry.pack()
+        rangeIn = StringVar(None)
+        rangeIn.set("0,5")
+        rangeEntry = Entry(gui, textvariable=rangeIn, width=10)
+        rangeEntry.pack()
 
-button = Button(gui, text="Execute", command=guiParseArgs)
-button.pack(side='bottom')
+        button = Button(gui, text="Execute", command=guiParseArgs)
+        button.pack(side='bottom')
 
-if(sys.argv[2] == '-gui'):
-    gui.mainloop()
+
+        gui.mainloop()
 
