@@ -48,7 +48,7 @@ This program takes in command line input for:
      Ping to 216.128.235.34    SUCCESS
 
 # GUI Supported
-To use the GUI, uncomment the Tkinter imports at the top of the NetworkMapper.py.
+To use the GUI, uncomment the Tkinter imports at the top of the NetworkMapper.py. Make sure you have installed Tkinter packages.
 
 # GUI Example
      $ python2 NetworkMapper.py 216.128.235 -gui
