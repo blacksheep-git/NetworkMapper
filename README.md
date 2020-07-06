@@ -5,10 +5,10 @@ This program takes in command line input for:
 - Range of subnet hosts to ping or ports to scan
 
 # Usage
-$ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <starting port/host> <ending port/host>
+     $ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <starting port/host> <ending port/host>
 
-     Ping Ex: 'python2 NewtworkMapper.py -ping 192.168.0 0 255'
-     will ping 192.168.0.0 through 192.168.0.255
+     Ping Ex: 'python2 NewtworkMapper.py -ping 192.168.0 1 255'
+     will ping 192.168.0.1 through 192.168.0.255
 
      Port scan Ex: 'python2 NewtworkMapper.py 192.168.0.0 0 -ports 442 443'
      will check if ports 443 through 443 are open on 192.168.0.0
@@ -34,7 +34,7 @@ $ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <starting 
 
 # Ping sweep example: 
 
-$ python2 NetworkMapper.py 216.128.235 -ping 28 34
+     $ python2 NetworkMapper.py 216.128.235 -ping 28 34
 
      Pinging IP's from 216.128.235.28 to 216.128.235.34...
 
@@ -51,7 +51,7 @@ $ python2 NetworkMapper.py 216.128.235 -ping 28 34
 To use the GUI, uncomment the Tkinter imports at the top of the NetworkMapper.py.
 
 # GUI Example
-$ python2 NetworkMapper.py 216.128.235 -gui
+     $ python2 NetworkMapper.py 216.128.235 -gui
      Initializing GUI...
 
 
