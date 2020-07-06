@@ -5,7 +5,7 @@ This program takes in command line input for:
 - Range of subnet hosts to ping or ports to scan
 
 # Usage
-$ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <start> <end>
+$ python2 NewtworkMapper.py <subnet or IP> <option (-ping or -ports)> <starting port/host> <ending port/host>
 
      Ping Ex: 'python2 NewtworkMapper.py -ping 192.168.0 0 255'
      will ping 192.168.0.0 through 192.168.0.255
