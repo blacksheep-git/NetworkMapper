@@ -10,7 +10,7 @@ This program takes in command line input for:
      Ping Ex: 'python2 NewtworkMapper.py 192.168.0 -ping 1 255'
      will ping 192.168.0.1 through 192.168.0.255
 
-     Port scan Ex: 'python2 NewtworkMapper.py 192.168.0.0 0 -ports 442 443'
+     Port scan Ex: 'python2 NewtworkMapper.py 192.168.0.0 -ports 442 443'
      will check if ports 443 through 443 are open on 192.168.0.0
 
 
